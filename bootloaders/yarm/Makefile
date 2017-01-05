@@ -75,7 +75,7 @@ BIN=$(NAME).bin
 HEX=$(NAME).hex
 
 
-INCLUDES=-I"$(MODULE_PATH)/tools/CMSIS/4.5.0/CMSIS/Include/" -IATMEL/
+INCLUDES=-I"$(MODULE_PATH)/tools/CMSIS/4.5.0/CMSIS/Include/" -I../../tools/ATMEL/
 
 # -----------------------------------------------------------------------------
 # Linker options

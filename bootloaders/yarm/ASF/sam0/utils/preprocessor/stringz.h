@@ -1,9 +1,9 @@
 /**
  * \file
  *
- * \brief Monitor functions for SAM-BA on SAM0
+ * \brief Preprocessor stringizing utils.
  *
- * Copyright (c) 2015 Atmel Corporation. All rights reserved.
+ * Copyright (C) 2012-2015 Atmel Corporation. All rights reserved.
  *
  * \asf_license_start
  *
@@ -44,51 +44,41 @@
  * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
  */
 
-#ifndef _MONITOR_SAM_BA_H_
-#define _MONITOR_SAM_BA_H_
-
-#define SAM_BA_VERSION              "2.16 [Arduino:XYZ]"
-
-/* Selects USART as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USART      1
-/* Selects USB as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USBCDC     0
-
-/* Selects USB as the communication interface of the monitor */
-#define SIZEBUFMAX                  64
+#ifndef _STRINGZ_H_
+#define _STRINGZ_H_
 
 /**
- * \brief Initialize the monitor
+ * \defgroup group_sam0_utils_stringz Preprocessor - Stringize
  *
- */
-void sam_ba_monitor_init(uint8_t com_interface);
-
-/**
- * Write to flash
- * size in bytes. Must be a multiple of 4
- */
-void flash_write_to(uint32_t *dst_addr, uint32_t *src_addr, uint32_t size);
-
-/**
- * Erase flash
- * size in bytes. should be a multiple of the row size
- */
-void flash_erase(uint32_t dst_addr, int32_t size);
-
-/**
- * \brief Main function of the SAM-BA Monitor
+ * \ingroup group_sam0_utils
  *
+ * @{
  */
-void sam_ba_monitor_run(void);
 
-/**
- * \brief
+/** \brief Stringize.
+ *
+ * Stringize a preprocessing token, this token being allowed to be \#defined.
+ *
+ * May be used only within macros with the token passed as an argument if the
+ * token is \#defined.
+ *
+ * For example, writing STRINGZ(PIN) within a macro \#defined by PIN_NAME(PIN)
+ * and invoked as PIN_NAME(PIN0) with PIN0 \#defined as A0 is equivalent to
+ * writing "A0".
  */
-void sam_ba_putdata_term(uint8_t* data, uint32_t length);
+#define STRINGZ(x)                                #x
 
-/**
- * \brief
+/** \brief Absolute stringize.
+ *
+ * Stringize a preprocessing token, this token being allowed to be \#defined.
+ *
+ * No restriction of use if the token is \#defined.
+ *
+ * For example, writing ASTRINGZ(PIN0) anywhere with PIN0 \#defined as A0 is
+ * equivalent to writing "A0".
  */
-void call_applet(uint32_t address);
+#define ASTRINGZ(x)                               STRINGZ(x)
 
-#endif // _MONITOR_SAM_BA_H_
+/** @} */
+
+#endif  // _STRINGZ_H_

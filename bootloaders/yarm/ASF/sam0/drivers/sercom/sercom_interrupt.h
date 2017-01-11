@@ -1,9 +1,9 @@
 /**
  * \file
  *
- * \brief Monitor functions for SAM-BA on SAM0
+ * \brief SAM Serial Peripheral Interface Driver
  *
- * Copyright (c) 2015 Atmel Corporation. All rights reserved.
+ * Copyright (C) 2012-2015 Atmel Corporation. All rights reserved.
  *
  * \asf_license_start
  *
@@ -43,52 +43,30 @@
 /*
  * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
  */
+#ifndef SERCOM_INTERRUPT_H_INCLUDED
+#define SERCOM_INTERRUPT_H_INCLUDED
 
-#ifndef _MONITOR_SAM_BA_H_
-#define _MONITOR_SAM_BA_H_
+#include "sercom.h"
+#include <system_interrupt.h>
 
-#define SAM_BA_VERSION              "2.16 [Arduino:XYZ]"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-/* Selects USART as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USART      1
-/* Selects USB as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USBCDC     0
+/* Look-up table for device instances */
+extern void *_sercom_instances[SERCOM_INST_NUM];
 
-/* Selects USB as the communication interface of the monitor */
-#define SIZEBUFMAX                  64
+typedef void (*sercom_handler_t)(uint8_t instance);
 
-/**
- * \brief Initialize the monitor
- *
- */
-void sam_ba_monitor_init(uint8_t com_interface);
+enum system_interrupt_vector _sercom_get_interrupt_vector(
+		Sercom *const sercom_instance);
 
-/**
- * Write to flash
- * size in bytes. Must be a multiple of 4
- */
-void flash_write_to(uint32_t *dst_addr, uint32_t *src_addr, uint32_t size);
+void _sercom_set_handler(
+		const uint8_t instance,
+		const sercom_handler_t interrupt_handler);
 
-/**
- * Erase flash
- * size in bytes. should be a multiple of the row size
- */
-void flash_erase(uint32_t dst_addr, int32_t size);
+#ifdef __cplusplus
+}
+#endif
 
-/**
- * \brief Main function of the SAM-BA Monitor
- *
- */
-void sam_ba_monitor_run(void);
-
-/**
- * \brief
- */
-void sam_ba_putdata_term(uint8_t* data, uint32_t length);
-
-/**
- * \brief
- */
-void call_applet(uint32_t address);
-
-#endif // _MONITOR_SAM_BA_H_
+#endif /* SERCOM_INTERRUPT_H_INCLUDED */

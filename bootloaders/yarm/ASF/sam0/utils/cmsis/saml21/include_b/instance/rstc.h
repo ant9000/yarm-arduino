@@ -1,7 +1,7 @@
 /**
  * \file
  *
- * \brief Monitor functions for SAM-BA on SAM0
+ * \brief Instance description for RSTC
  *
  * Copyright (c) 2015 Atmel Corporation. All rights reserved.
  *
@@ -40,55 +40,28 @@
  * \asf_license_stop
  *
  */
-/*
- * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
- */
 
-#ifndef _MONITOR_SAM_BA_H_
-#define _MONITOR_SAM_BA_H_
+#ifndef _SAML21_RSTC_INSTANCE_
+#define _SAML21_RSTC_INSTANCE_
 
-#define SAM_BA_VERSION              "2.16 [Arduino:XYZ]"
+/* ========== Register definition for RSTC peripheral ========== */
+#if (defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
+#define REG_RSTC_RCAUSE            (0x40000800U) /**< \brief (RSTC) Reset Cause */
+#define REG_RSTC_BKUPEXIT          (0x40000802U) /**< \brief (RSTC) Backup Exit Source */
+#define REG_RSTC_WKDBCONF          (0x40000804U) /**< \brief (RSTC) Wakeup Debounce Configuration */
+#define REG_RSTC_WKPOL             (0x40000808U) /**< \brief (RSTC) Wakeup Polarity */
+#define REG_RSTC_WKEN              (0x4000080CU) /**< \brief (RSTC) Wakeup Enable */
+#define REG_RSTC_WKCAUSE           (0x40000810U) /**< \brief (RSTC) Wakeup Cause */
+#else
+#define REG_RSTC_RCAUSE            (*(RoReg8 *)0x40000800U) /**< \brief (RSTC) Reset Cause */
+#define REG_RSTC_BKUPEXIT          (*(RoReg8 *)0x40000802U) /**< \brief (RSTC) Backup Exit Source */
+#define REG_RSTC_WKDBCONF          (*(RwReg8 *)0x40000804U) /**< \brief (RSTC) Wakeup Debounce Configuration */
+#define REG_RSTC_WKPOL             (*(RwReg16*)0x40000808U) /**< \brief (RSTC) Wakeup Polarity */
+#define REG_RSTC_WKEN              (*(RwReg16*)0x4000080CU) /**< \brief (RSTC) Wakeup Enable */
+#define REG_RSTC_WKCAUSE           (*(RwReg16*)0x40000810U) /**< \brief (RSTC) Wakeup Cause */
+#endif /* (defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 
-/* Selects USART as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USART      1
-/* Selects USB as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USBCDC     0
+/* ========== Instance parameters for RSTC peripheral ========== */
+#define RSTC_NUMBER_OF_EXTWAKE      8        // number of external wakeup line
 
-/* Selects USB as the communication interface of the monitor */
-#define SIZEBUFMAX                  64
-
-/**
- * \brief Initialize the monitor
- *
- */
-void sam_ba_monitor_init(uint8_t com_interface);
-
-/**
- * Write to flash
- * size in bytes. Must be a multiple of 4
- */
-void flash_write_to(uint32_t *dst_addr, uint32_t *src_addr, uint32_t size);
-
-/**
- * Erase flash
- * size in bytes. should be a multiple of the row size
- */
-void flash_erase(uint32_t dst_addr, int32_t size);
-
-/**
- * \brief Main function of the SAM-BA Monitor
- *
- */
-void sam_ba_monitor_run(void);
-
-/**
- * \brief
- */
-void sam_ba_putdata_term(uint8_t* data, uint32_t length);
-
-/**
- * \brief
- */
-void call_applet(uint32_t address);
-
-#endif // _MONITOR_SAM_BA_H_
+#endif /* _SAML21_RSTC_INSTANCE_ */

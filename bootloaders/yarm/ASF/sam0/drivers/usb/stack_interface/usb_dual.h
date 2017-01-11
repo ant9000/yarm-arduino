@@ -1,9 +1,9 @@
 /**
  * \file
  *
- * \brief Monitor functions for SAM-BA on SAM0
+ * \brief SAM USB Dual Role driver header file.
  *
- * Copyright (c) 2015 Atmel Corporation. All rights reserved.
+ * Copyright (c) 2014-2015 Atmel Corporation. All rights reserved.
  *
  * \asf_license_start
  *
@@ -44,51 +44,68 @@
  * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
  */
 
-#ifndef _MONITOR_SAM_BA_H_
-#define _MONITOR_SAM_BA_H_
+#ifndef _USB_DUAL_H_
+#define _USB_DUAL_H_
 
-#define SAM_BA_VERSION              "2.16 [Arduino:XYZ]"
+#include "compiler.h"
+#include "preprocessor.h"
 
-/* Selects USART as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USART      1
-/* Selects USB as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USBCDC     0
+/* Get USB pads pins configuration in board configuration */
+#include "conf_board.h"
+#include "board.h"
+#include "extint.h"
+#include "port.h"
 
-/* Selects USB as the communication interface of the monitor */
-#define SIZEBUFMAX                  64
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
- * \brief Initialize the monitor
+ * \ingroup usb_group
+ * \defgroup usb_dual_group USB dual role driver
+ * USB low-level driver for dual role features
  *
+ * @{
  */
-void sam_ba_monitor_init(uint8_t com_interface);
+
+bool usb_dual_enable(void);
+void usb_dual_disable(void);
 
 /**
- * Write to flash
- * size in bytes. Must be a multiple of 4
- */
-void flash_write_to(uint32_t *dst_addr, uint32_t *src_addr, uint32_t size);
-
-/**
- * Erase flash
- * size in bytes. should be a multiple of the row size
- */
-void flash_erase(uint32_t dst_addr, int32_t size);
-
-/**
- * \brief Main function of the SAM-BA Monitor
+ * @name USB ID pin management
  *
- */
-void sam_ba_monitor_run(void);
+ * The ID pin come from the USB connector (A and B receptable) and
+ * allows to select the USB mode between host or device.
+ * The ID pin can be managed through EIC pin.
+ * This feature is optional, and it is enabled if USB_ID_PIN
+ * is defined in board.h and CONF_BOARD_USB_ID_DETECT defined in
+ * conf_board.h.
+*
+* @{
+*/
+#define USB_ID_DETECT        (defined(CONF_BOARD_USB_ID_DETECT))
+#define USB_ID_EIC           (defined(USB_ID_PIN) && USB_ID_DETECT)
+/** @} */
 
 /**
- * \brief
+ * @name USB Vbus management
+ *
+ * The VBus line can be monitored through a EIC pin and
+ * a basic resistor voltage divider.
+ * This feature is optional, and it is enabled if USB_VBUS_PIN
+ * is defined in board.h and CONF_BOARD_USB_VBUS_DETECT defined in
+ * conf_board.h.
+ *
+ * @{
  */
-void sam_ba_putdata_term(uint8_t* data, uint32_t length);
+#define USB_VBUS_DETECT      (defined(CONF_BOARD_USB_VBUS_DETECT))
+#define USB_VBUS_EIC         (defined(USB_VBUS_PIN) && USB_VBUS_DETECT)
+/** @} */
 
-/**
- * \brief
- */
-void call_applet(uint32_t address);
+/** @} */
 
-#endif // _MONITOR_SAM_BA_H_
+#ifdef __cplusplus
+}
+#endif
+
+#endif // _USB_DUAL_H_

@@ -1,9 +1,11 @@
 /**
  * \file
  *
- * \brief Monitor functions for SAM-BA on SAM0
+ * \brief Arch file for SAM0.
  *
- * Copyright (c) 2015 Atmel Corporation. All rights reserved.
+ * This file defines common SAM0 series.
+ *
+ * Copyright (C) 2012-2016 Atmel Corporation. All rights reserved.
  *
  * \asf_license_start
  *
@@ -44,51 +46,68 @@
  * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
  */
 
-#ifndef _MONITOR_SAM_BA_H_
-#define _MONITOR_SAM_BA_H_
+#ifndef _SAM_IO_
+#define _SAM_IO_
 
-#define SAM_BA_VERSION              "2.16 [Arduino:XYZ]"
+#include <stddef.h>
+#include <stdint.h>
+#include <stdbool.h>
 
-/* Selects USART as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USART      1
-/* Selects USB as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USBCDC     0
+/* SAM D20 family */
+#if (SAMD20)
+#  include "samd20.h"
+#endif
 
-/* Selects USB as the communication interface of the monitor */
-#define SIZEBUFMAX                  64
+#if (SAMD21)
+#  include "samd21.h"
+#endif
 
-/**
- * \brief Initialize the monitor
- *
- */
-void sam_ba_monitor_init(uint8_t com_interface);
+#if (SAMR21)
+#  include "samr21.h"
+#endif
 
-/**
- * Write to flash
- * size in bytes. Must be a multiple of 4
- */
-void flash_write_to(uint32_t *dst_addr, uint32_t *src_addr, uint32_t size);
+#if (SAMD09)
+#  include "samd09.h"
+#endif
 
-/**
- * Erase flash
- * size in bytes. should be a multiple of the row size
- */
-void flash_erase(uint32_t dst_addr, int32_t size);
+#if (SAMD10)
+#  include "samd10.h"
+#endif
 
-/**
- * \brief Main function of the SAM-BA Monitor
- *
- */
-void sam_ba_monitor_run(void);
+#if (SAMD11)
+#  include "samd11.h"
+#endif
 
-/**
- * \brief
- */
-void sam_ba_putdata_term(uint8_t* data, uint32_t length);
+#if (SAML21)
+#  include "saml21.h"
+#endif
 
-/**
- * \brief
- */
-void call_applet(uint32_t address);
+#if (SAMR30)
+#  include "samr30.h"
+#endif
 
-#endif // _MONITOR_SAM_BA_H_
+#if (SAML22)
+#  include "saml22.h"
+#endif
+
+#if (SAMDA1)
+#  include "samda1.h"
+#endif
+
+#if (SAMC20)
+#  include "samc20.h"
+#endif
+
+#if (SAMC21)
+#  include "samc21.h"
+#endif
+
+#if (SAMHA1)
+#  include "samha1.h"
+#endif
+
+#if (SAMB11)
+#  include "samb11.h"
+#endif
+
+#endif /* _SAM_IO_ */

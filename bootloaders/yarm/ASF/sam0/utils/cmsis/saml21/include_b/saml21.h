@@ -1,7 +1,7 @@
 /**
  * \file
  *
- * \brief Monitor functions for SAM-BA on SAM0
+ * \brief Top header file for SAML21
  *
  * Copyright (c) 2015 Atmel Corporation. All rights reserved.
  *
@@ -40,55 +40,37 @@
  * \asf_license_stop
  *
  */
-/*
- * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
- */
 
-#ifndef _MONITOR_SAM_BA_H_
-#define _MONITOR_SAM_BA_H_
-
-#define SAM_BA_VERSION              "2.16 [Arduino:XYZ]"
-
-/* Selects USART as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USART      1
-/* Selects USB as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USBCDC     0
-
-/* Selects USB as the communication interface of the monitor */
-#define SIZEBUFMAX                  64
+#ifndef _SAML21_
+#define _SAML21_
 
 /**
- * \brief Initialize the monitor
- *
+ * \defgroup SAML21_definitions SAML21 Device Definitions
+ * \brief SAML21 CMSIS Definitions.
  */
-void sam_ba_monitor_init(uint8_t com_interface);
 
-/**
- * Write to flash
- * size in bytes. Must be a multiple of 4
- */
-void flash_write_to(uint32_t *dst_addr, uint32_t *src_addr, uint32_t size);
+#if   defined(__SAML21E15B__) || defined(__ATSAML21E15B__)
+  #include "saml21e15b.h"
+#elif defined(__SAML21E16B__) || defined(__ATSAML21E16B__)
+  #include "saml21e16b.h"
+#elif defined(__SAML21E17B__) || defined(__ATSAML21E17B__)
+  #include "saml21e17b.h"
+#elif defined(__SAML21E18B__) || defined(__ATSAML21E18B__)
+  #include "saml21e18b.h"
+#elif defined(__SAML21G16B__) || defined(__ATSAML21G16B__)
+  #include "saml21g16b.h"
+#elif defined(__SAML21G17B__) || defined(__ATSAML21G17B__)
+  #include "saml21g17b.h"
+#elif defined(__SAML21G18B__) || defined(__ATSAML21G18B__)
+  #include "saml21g18b.h"
+#elif defined(__SAML21J16B__) || defined(__ATSAML21J16B__)
+  #include "saml21j16b.h"
+#elif defined(__SAML21J17B__) || defined(__ATSAML21J17B__)
+  #include "saml21j17b.h"
+#elif defined(__SAML21J18B__) || defined(__ATSAML21J18B__)
+  #include "saml21j18b.h"
+#else
+  #error Library does not support the specified device.
+#endif
 
-/**
- * Erase flash
- * size in bytes. should be a multiple of the row size
- */
-void flash_erase(uint32_t dst_addr, int32_t size);
-
-/**
- * \brief Main function of the SAM-BA Monitor
- *
- */
-void sam_ba_monitor_run(void);
-
-/**
- * \brief
- */
-void sam_ba_putdata_term(uint8_t* data, uint32_t length);
-
-/**
- * \brief
- */
-void call_applet(uint32_t address);
-
-#endif // _MONITOR_SAM_BA_H_
+#endif /* _SAML21_ */

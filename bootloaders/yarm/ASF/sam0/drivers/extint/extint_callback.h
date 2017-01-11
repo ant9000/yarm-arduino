@@ -1,9 +1,9 @@
 /**
  * \file
  *
- * \brief Monitor functions for SAM-BA on SAM0
+ * \brief SAM External Interrupt Driver
  *
- * Copyright (c) 2015 Atmel Corporation. All rights reserved.
+ * Copyright (C) 2012-2015 Atmel Corporation. All rights reserved.
  *
  * \asf_license_start
  *
@@ -43,52 +43,66 @@
 /*
  * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
  */
+#ifndef EXTINT_CALLBACK_H_INCLUDED
+#define EXTINT_CALLBACK_H_INCLUDED
 
-#ifndef _MONITOR_SAM_BA_H_
-#define _MONITOR_SAM_BA_H_
+#include <compiler.h>
 
-#define SAM_BA_VERSION              "2.16 [Arduino:XYZ]"
-
-/* Selects USART as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USART      1
-/* Selects USB as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USBCDC     0
-
-/* Selects USB as the communication interface of the monitor */
-#define SIZEBUFMAX                  64
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
- * \brief Initialize the monitor
+ * \addtogroup asfdoc_sam0_extint_group
  *
+ * @{
  */
-void sam_ba_monitor_init(uint8_t com_interface);
 
-/**
- * Write to flash
- * size in bytes. Must be a multiple of 4
+/** \name Callback Configuration and Initialization
+ * @{
  */
-void flash_write_to(uint32_t *dst_addr, uint32_t *src_addr, uint32_t size);
 
-/**
- * Erase flash
- * size in bytes. should be a multiple of the row size
+/** Enum for the possible callback types for the EXTINT module. */
+enum extint_callback_type
+{
+	/** Callback type for when an external interrupt detects the configured
+	 *  channel criteria (i.e. edge or level detection)
+	 */
+	EXTINT_CALLBACK_TYPE_DETECT,
+};
+
+enum status_code extint_register_callback(
+	const extint_callback_t callback,
+	const uint8_t channel,
+	const enum extint_callback_type type);
+
+enum status_code extint_unregister_callback(
+	const extint_callback_t callback,
+	const uint8_t channel,
+	const enum extint_callback_type type);
+
+uint8_t extint_get_current_channel(void);
+
+/** @} */
+
+/** \name Callback Enabling and Disabling (Channel)
+ * @{
  */
-void flash_erase(uint32_t dst_addr, int32_t size);
 
-/**
- * \brief Main function of the SAM-BA Monitor
- *
- */
-void sam_ba_monitor_run(void);
+enum status_code extint_chan_enable_callback(
+	const uint8_t channel,
+	const enum extint_callback_type type);
 
-/**
- * \brief
- */
-void sam_ba_putdata_term(uint8_t* data, uint32_t length);
+enum status_code extint_chan_disable_callback(
+	const uint8_t channel,
+	const enum extint_callback_type type);
 
-/**
- * \brief
- */
-void call_applet(uint32_t address);
+/** @} */
 
-#endif // _MONITOR_SAM_BA_H_
+/** @} */
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

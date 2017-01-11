@@ -1,9 +1,9 @@
 /**
  * \file
  *
- * \brief Monitor functions for SAM-BA on SAM0
+ * \brief Syscalls for SAM0 (GCC).
  *
- * Copyright (c) 2015 Atmel Corporation. All rights reserved.
+ * Copyright (C) 2012-2016 Atmel Corporation. All rights reserved.
  *
  * \asf_license_start
  *
@@ -44,51 +44,87 @@
  * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
  */
 
-#ifndef _MONITOR_SAM_BA_H_
-#define _MONITOR_SAM_BA_H_
+#include <stdio.h>
+#include <stdarg.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
-#define SAM_BA_VERSION              "2.16 [Arduino:XYZ]"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-/* Selects USART as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USART      1
-/* Selects USB as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USBCDC     0
+#undef errno
+extern int errno;
+extern int _end;
 
-/* Selects USB as the communication interface of the monitor */
-#define SIZEBUFMAX                  64
+extern caddr_t _sbrk(int incr);
+extern int link(char *old, char *new);
+extern int _close(int file);
+extern int _fstat(int file, struct stat *st);
+extern int _isatty(int file);
+extern int _lseek(int file, int ptr, int dir);
+extern void _exit(int status);
+extern void _kill(int pid, int sig);
+extern int _getpid(void);
 
-/**
- * \brief Initialize the monitor
- *
- */
-void sam_ba_monitor_init(uint8_t com_interface);
+extern caddr_t _sbrk(int incr)
+{
+	static unsigned char *heap = NULL;
+	unsigned char *prev_heap;
 
-/**
- * Write to flash
- * size in bytes. Must be a multiple of 4
- */
-void flash_write_to(uint32_t *dst_addr, uint32_t *src_addr, uint32_t size);
+	if (heap == NULL) {
+		heap = (unsigned char *)&_end;
+	}
+	prev_heap = heap;
 
-/**
- * Erase flash
- * size in bytes. should be a multiple of the row size
- */
-void flash_erase(uint32_t dst_addr, int32_t size);
+	heap += incr;
 
-/**
- * \brief Main function of the SAM-BA Monitor
- *
- */
-void sam_ba_monitor_run(void);
+	return (caddr_t) prev_heap;
+}
 
-/**
- * \brief
- */
-void sam_ba_putdata_term(uint8_t* data, uint32_t length);
+extern int link(char *old, char *new)
+{
+	return -1;
+}
 
-/**
- * \brief
- */
-void call_applet(uint32_t address);
+extern int _close(int file)
+{
+	return -1;
+}
 
-#endif // _MONITOR_SAM_BA_H_
+extern int _fstat(int file, struct stat *st)
+{
+	st->st_mode = S_IFCHR;
+
+	return 0;
+}
+
+extern int _isatty(int file)
+{
+	return 1;
+}
+
+extern int _lseek(int file, int ptr, int dir)
+{
+	return 0;
+}
+
+extern void _exit(int status)
+{
+	asm("BKPT #0");
+	for (;;);
+}
+
+extern void _kill(int pid, int sig)
+{
+	return;
+}
+
+extern int _getpid(void)
+{
+	return -1;
+}
+
+#ifdef __cplusplus
+}
+#endif

@@ -1,9 +1,9 @@
 /**
  * \file
  *
- * \brief Monitor functions for SAM-BA on SAM0
+ * \brief Global interrupt management for SAM D20, SAM3 and SAM4 (NVIC based)
  *
- * Copyright (c) 2015 Atmel Corporation. All rights reserved.
+ * Copyright (c) 2012-2015 Atmel Corporation. All rights reserved.
  *
  * \asf_license_start
  *
@@ -44,51 +44,43 @@
  * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
  */
 
-#ifndef _MONITOR_SAM_BA_H_
-#define _MONITOR_SAM_BA_H_
+#include "interrupt_sam_nvic.h"
 
-#define SAM_BA_VERSION              "2.16 [Arduino:XYZ]"
-
-/* Selects USART as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USART      1
-/* Selects USB as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USBCDC     0
-
-/* Selects USB as the communication interface of the monitor */
-#define SIZEBUFMAX                  64
-
-/**
- * \brief Initialize the monitor
- *
+#if !defined(__DOXYGEN__)
+/* Deprecated - global flag to determine the global interrupt state. Required by
+ * QTouch library, however new applications should use cpu_irq_is_enabled()
+ * which probes the true global interrupt state from the CPU special registers.
  */
-void sam_ba_monitor_init(uint8_t com_interface);
+volatile bool g_interrupt_enabled = true;
+#endif
 
-/**
- * Write to flash
- * size in bytes. Must be a multiple of 4
- */
-void flash_write_to(uint32_t *dst_addr, uint32_t *src_addr, uint32_t size);
+void cpu_irq_enter_critical(void)
+{
+	if (cpu_irq_critical_section_counter == 0) {
+		if (cpu_irq_is_enabled()) {
+			cpu_irq_disable();
+			cpu_irq_prev_interrupt_state = true;
+		} else {
+			/* Make sure the to save the prev state as false */
+			cpu_irq_prev_interrupt_state = false;
+		}
 
-/**
- * Erase flash
- * size in bytes. should be a multiple of the row size
- */
-void flash_erase(uint32_t dst_addr, int32_t size);
+	}
 
-/**
- * \brief Main function of the SAM-BA Monitor
- *
- */
-void sam_ba_monitor_run(void);
+	cpu_irq_critical_section_counter++;
+}
 
-/**
- * \brief
- */
-void sam_ba_putdata_term(uint8_t* data, uint32_t length);
+void cpu_irq_leave_critical(void)
+{
+	/* Check if the user is trying to leave a critical section when not in a critical section */
+	Assert(cpu_irq_critical_section_counter > 0);
 
-/**
- * \brief
- */
-void call_applet(uint32_t address);
+	cpu_irq_critical_section_counter--;
 
-#endif // _MONITOR_SAM_BA_H_
+	/* Only enable global interrupts when the counter reaches 0 and the state of the global interrupt flag
+	   was enabled when entering critical state */
+	if ((cpu_irq_critical_section_counter == 0) && (cpu_irq_prev_interrupt_state)) {
+		cpu_irq_enable();
+	}
+}
+

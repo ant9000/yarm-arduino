@@ -1,7 +1,7 @@
 /**
  * \file
  *
- * \brief Monitor functions for SAM-BA on SAM0
+ * \brief Instance description for TRNG
  *
  * Copyright (c) 2015 Atmel Corporation. All rights reserved.
  *
@@ -40,55 +40,26 @@
  * \asf_license_stop
  *
  */
-/*
- * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
- */
 
-#ifndef _MONITOR_SAM_BA_H_
-#define _MONITOR_SAM_BA_H_
+#ifndef _SAML21_TRNG_INSTANCE_
+#define _SAML21_TRNG_INSTANCE_
 
-#define SAM_BA_VERSION              "2.16 [Arduino:XYZ]"
+/* ========== Register definition for TRNG peripheral ========== */
+#if (defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
+#define REG_TRNG_CTRLA             (0x42003800U) /**< \brief (TRNG) Control A */
+#define REG_TRNG_EVCTRL            (0x42003804U) /**< \brief (TRNG) Event Control */
+#define REG_TRNG_INTENCLR          (0x42003808U) /**< \brief (TRNG) Interrupt Enable Clear */
+#define REG_TRNG_INTENSET          (0x42003809U) /**< \brief (TRNG) Interrupt Enable Set */
+#define REG_TRNG_INTFLAG           (0x4200380AU) /**< \brief (TRNG) Interrupt Flag Status and Clear */
+#define REG_TRNG_DATA              (0x42003820U) /**< \brief (TRNG) Output Data */
+#else
+#define REG_TRNG_CTRLA             (*(RwReg8 *)0x42003800U) /**< \brief (TRNG) Control A */
+#define REG_TRNG_EVCTRL            (*(RwReg8 *)0x42003804U) /**< \brief (TRNG) Event Control */
+#define REG_TRNG_INTENCLR          (*(RwReg8 *)0x42003808U) /**< \brief (TRNG) Interrupt Enable Clear */
+#define REG_TRNG_INTENSET          (*(RwReg8 *)0x42003809U) /**< \brief (TRNG) Interrupt Enable Set */
+#define REG_TRNG_INTFLAG           (*(RwReg8 *)0x4200380AU) /**< \brief (TRNG) Interrupt Flag Status and Clear */
+#define REG_TRNG_DATA              (*(RoReg  *)0x42003820U) /**< \brief (TRNG) Output Data */
+#endif /* (defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 
-/* Selects USART as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USART      1
-/* Selects USB as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USBCDC     0
 
-/* Selects USB as the communication interface of the monitor */
-#define SIZEBUFMAX                  64
-
-/**
- * \brief Initialize the monitor
- *
- */
-void sam_ba_monitor_init(uint8_t com_interface);
-
-/**
- * Write to flash
- * size in bytes. Must be a multiple of 4
- */
-void flash_write_to(uint32_t *dst_addr, uint32_t *src_addr, uint32_t size);
-
-/**
- * Erase flash
- * size in bytes. should be a multiple of the row size
- */
-void flash_erase(uint32_t dst_addr, int32_t size);
-
-/**
- * \brief Main function of the SAM-BA Monitor
- *
- */
-void sam_ba_monitor_run(void);
-
-/**
- * \brief
- */
-void sam_ba_putdata_term(uint8_t* data, uint32_t length);
-
-/**
- * \brief
- */
-void call_applet(uint32_t address);
-
-#endif // _MONITOR_SAM_BA_H_
+#endif /* _SAML21_TRNG_INSTANCE_ */

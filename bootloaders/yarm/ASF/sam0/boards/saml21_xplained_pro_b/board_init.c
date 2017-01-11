@@ -1,9 +1,9 @@
 /**
  * \file
  *
- * \brief Monitor functions for SAM-BA on SAM0
+ * \brief SAM L21 Xplained Pro board initialization
  *
- * Copyright (c) 2015 Atmel Corporation. All rights reserved.
+ * Copyright (c) 2014-2016 Atmel Corporation. All rights reserved.
  *
  * \asf_license_start
  *
@@ -44,51 +44,47 @@
  * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
  */
 
-#ifndef _MONITOR_SAM_BA_H_
-#define _MONITOR_SAM_BA_H_
+#include <compiler.h>
+#include <board.h>
+#include <conf_board.h>
+#include <port.h>
 
-#define SAM_BA_VERSION              "2.16 [Arduino:XYZ]"
+#if defined(__GNUC__)
+void board_init(void) WEAK __attribute__((alias("system_board_init")));
+#elif defined(__ICCARM__)
+void board_init(void);
+#  pragma weak board_init=system_board_init
+#endif
 
-/* Selects USART as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USART      1
-/* Selects USB as the communication interface of the monitor */
-#define SAM_BA_INTERFACE_USBCDC     0
+void system_board_init(void)
+{
+	struct port_config pin_conf;
+	port_get_config_defaults(&pin_conf);
 
-/* Selects USB as the communication interface of the monitor */
-#define SIZEBUFMAX                  64
+	/* Configure LEDs as outputs, turn them off */
+	pin_conf.direction  = PORT_PIN_DIR_OUTPUT;
+	port_pin_set_config(LED_0_PIN, &pin_conf);
+	port_pin_set_output_level(LED_0_PIN, LED_0_INACTIVE);
 
-/**
- * \brief Initialize the monitor
- *
- */
-void sam_ba_monitor_init(uint8_t com_interface);
-
-/**
- * Write to flash
- * size in bytes. Must be a multiple of 4
- */
-void flash_write_to(uint32_t *dst_addr, uint32_t *src_addr, uint32_t size);
-
-/**
- * Erase flash
- * size in bytes. should be a multiple of the row size
- */
-void flash_erase(uint32_t dst_addr, int32_t size);
-
-/**
- * \brief Main function of the SAM-BA Monitor
- *
- */
-void sam_ba_monitor_run(void);
-
-/**
- * \brief
- */
-void sam_ba_putdata_term(uint8_t* data, uint32_t length);
-
-/**
- * \brief
- */
-void call_applet(uint32_t address);
-
-#endif // _MONITOR_SAM_BA_H_
+	/* Set buttons as inputs */
+	pin_conf.direction  = PORT_PIN_DIR_INPUT;
+	pin_conf.input_pull = PORT_PIN_PULL_UP;
+	port_pin_set_config(BUTTON_0_PIN, &pin_conf);
+	
+#ifdef CONF_BOARD_AT86RFX
+	port_get_config_defaults(&pin_conf);
+	pin_conf.direction  = PORT_PIN_DIR_OUTPUT;
+	port_pin_set_config(AT86RFX_SPI_SCK, &pin_conf);
+	port_pin_set_config(AT86RFX_SPI_MOSI, &pin_conf);
+	port_pin_set_config(AT86RFX_SPI_CS, &pin_conf);
+	port_pin_set_config(AT86RFX_RST_PIN, &pin_conf);
+	port_pin_set_config(AT86RFX_SLP_PIN, &pin_conf);
+	port_pin_set_output_level(AT86RFX_SPI_SCK, true);
+	port_pin_set_output_level(AT86RFX_SPI_MOSI, true);
+	port_pin_set_output_level(AT86RFX_SPI_CS, true);
+	port_pin_set_output_level(AT86RFX_RST_PIN, true);
+	port_pin_set_output_level(AT86RFX_SLP_PIN, true);
+	pin_conf.direction  = PORT_PIN_DIR_INPUT;
+	port_pin_set_config(AT86RFX_SPI_MISO, &pin_conf);
+#endif	
+}

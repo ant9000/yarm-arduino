@@ -1,145 +1,169 @@
-/*
-  Copyright (c) 2015 Arduino LLC.  All right reserved.
-  Copyright (c) 2015 Atmel Corporation/Thibaut VIARD.  All right reserved.
+/**
+ * \file
+ *
+ * \brief SAM SAM-BA Bootloader
+ *
+ * Copyright (c) 2015-2016 Atmel Corporation. All rights reserved.
+ *
+ * \asf_license_start
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ *
+ * 3. The name of Atmel may not be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ * 4. This software may only be redistributed and used in connection with an
+ *    Atmel microcontroller product.
+ *
+ * THIS SOFTWARE IS PROVIDED BY ATMEL "AS IS" AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT ARE
+ * EXPRESSLY AND SPECIFICALLY DISCLAIMED. IN NO EVENT SHALL ATMEL BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * \asf_license_stop
+ *
+ */
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+/**
+ * \mainpage SAM-BA Bootloader Application
+ *
+ * \section Purpose
+ *
+ * The example will help new users get familiar with Atmel's SAM0 family microcontrollers
+ * bootloader for SAM-BA. This basic application will be used when connecting with SAM-BA.
+ *
+ * \section Requirements
+ *
+ * This package can be used with SAM C21/D21/DA1/L21/L22/R21 xplained pro.
+ *
+ * \section Description
+ *
+ * The bootloader code will be located at 0x0 and executed before any applicative code.
+ * Applications compiled to be executed along with the bootloader will start at 0x2000
+ * (not support USBCDC interface) or 0x6000 (supoort USBCDC interface).
+ * Before jumping to the application, the bootloader changes the VTOR register
+ * to use the interrupt vectors of the application.
+ *
+ * \section Usage
+ *
+ * -# Build the program and download it inside the evaluation board.
+ * -# Start the application.
+ * -# Pressing button SW0 the board will enter SAM-BA monitor mode.
+ *
+ */
+ /*
+ * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
+ */
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-  See the GNU Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
+#include "asf.h"
 #include <stdio.h>
-#include <sam.h>
+#include <stdlib.h>
+#include <io.h>
+#include <string.h>
+#include "conf_board.h"
+#include "conf_clocks.h"
+#include "conf_bootloader.h"
 #include "sam_ba_monitor.h"
-#include "sam_ba_serial.h"
-#include "board_definitions.h"
-#include "board_driver_led.h"
-#include "sam_ba_usb.h"
-#include "sam_ba_cdc.h"
+#include "usart_sam_ba.h"
 
-extern uint32_t __sketch_vectors_ptr; // Exported value from linker script
-extern void board_init(void);
+static void check_start_application(void);
 
-#if (defined DEBUG) && (DEBUG == 1)
-volatile uint32_t* pulSketch_Start_Address;
-#endif
-
+#ifdef CONF_USBCDC_INTERFACE_SUPPORT
 static volatile bool main_b_cdc_enable = false;
-
+#endif
 /**
  * \brief Check the application startup condition
  *
  */
 static void check_start_application(void)
 {
-//  LED_init();
-//  LED_off();
+	uint32_t app_start_address;
 
-#if (!defined DEBUG) || ((defined DEBUG) && (DEBUG == 0))
-uint32_t* pulSketch_Start_Address;
-#endif
+	/* Load the Reset Handler address of the application */
+	app_start_address = *(uint32_t *)(APP_START_ADDRESS + 4);
 
-  /*
-   * Test sketch stack pointer @ &__sketch_vectors_ptr
-   * Stay in SAM-BA if value @ (&__sketch_vectors_ptr) == 0xFFFFFFFF (Erased flash cell value)
-   */
-  if (__sketch_vectors_ptr == 0xFFFFFFFF)
-  {
-    /* Stay in bootloader */
-    return;
-  }
-
-  /*
-   * Load the sketch Reset Handler address
-   * __sketch_vectors_ptr is exported from linker script and point on first 32b word of sketch vector table
-   * First 32b word is sketch stack
-   * Second 32b word is sketch entry point: Reset_Handler()
-   */
-  pulSketch_Start_Address = &__sketch_vectors_ptr ;
-  pulSketch_Start_Address++ ;
-
-  /*
-   * Test vector table address of sketch @ &__sketch_vectors_ptr
-   * Stay in SAM-BA if this function is not aligned enough, ie not valid
-   */
-  if ( ((uint32_t)(&__sketch_vectors_ptr) & ~SCB_VTOR_TBLOFF_Msk) != 0x00)
-  {
-    /* Stay in bootloader */
-    return;
-  }
+	/**
+	 * Test reset vector of application @APP_START_ADDRESS+4
+	 * Stay in SAM-BA if *(APP_START+0x4) == 0xFFFFFFFF
+	 * Application erased condition
+	 */
+	if (app_start_address == 0xFFFFFFFF) {
+		/* Stay in bootloader */
+		return;
+	}
 
 #if defined(BOOT_DOUBLE_TAP_ADDRESS)
-  #define DOUBLE_TAP_MAGIC 0x07738135
-  if (RSTC->RCAUSE.bit.POR)
-  {
-    /* On power-on initialize double-tap */
-    BOOT_DOUBLE_TAP_DATA = 0;
-  }
-  else
-  {
-    if (BOOT_DOUBLE_TAP_DATA == DOUBLE_TAP_MAGIC)
+    #define DOUBLE_TAP_MAGIC 0x07738135
+    if (RSTC->RCAUSE.bit.POR)
     {
-      /* Second tap, stay in bootloader */
-      BOOT_DOUBLE_TAP_DATA = 0;
-      return;
+        /* On power-on initialize double-tap */
+        BOOT_DOUBLE_TAP_DATA = 0;
     }
+    else
+    {
+        if (BOOT_DOUBLE_TAP_DATA == DOUBLE_TAP_MAGIC)
+        {
+            /* Second tap, stay in bootloader */
+            BOOT_DOUBLE_TAP_DATA = 0;
+            return;
+        }
 
-    /* First tap */
-    BOOT_DOUBLE_TAP_DATA = DOUBLE_TAP_MAGIC;
+        /* First tap */
+        BOOT_DOUBLE_TAP_DATA = DOUBLE_TAP_MAGIC;
 
-    /* Wait 0.5sec to see if the user tap reset again.
-     * The loop value is based on SAMD21 default 1MHz clock @ reset.
-     */
-    for (uint32_t i=0; i<125000; i++) /* 500ms */
-      /* force compiler to not optimize this... */
-      __asm__ __volatile__("");
+        /* Wait 0.5sec to see if the user tap reset again.
+         * The loop value is based on SAMD21 default 1MHz clock @ reset.
+         */ 
+        for (uint32_t i=0; i<125000; i++) /* 500ms */
+            /* force compiler to not optimize this... */
+            __asm__ __volatile__("");
 
-    /* Timeout happened, continue boot... */
-    BOOT_DOUBLE_TAP_DATA = 0;
-  }
+        /* Timeout happened, continue boot... */
+        BOOT_DOUBLE_TAP_DATA = 0;
+    }
 #endif
 
-/*
-#if defined(BOOT_LOAD_PIN)
-  volatile PortGroup *boot_port = (volatile PortGroup *)(&(PORT->Group[BOOT_LOAD_PIN / 32]));
-  volatile bool boot_en;
+	volatile PortGroup *boot_port = (volatile PortGroup *)(&(PORT->Group[BOOT_LOAD_PIN / 32]));
+	volatile bool boot_en;
 
-  // Enable the input mode in Boot GPIO Pin
-  boot_port->DIRCLR.reg = BOOT_PIN_MASK;
-  boot_port->PINCFG[BOOT_LOAD_PIN & 0x1F].reg = PORT_PINCFG_INEN | PORT_PINCFG_PULLEN;
-  boot_port->OUTSET.reg = BOOT_PIN_MASK;
-  // Read the BOOT_LOAD_PIN status
-  boot_en = (boot_port->IN.reg) & BOOT_PIN_MASK;
+	/* Enable the input mode in Boot GPIO Pin */
+	boot_port->DIRCLR.reg = GPIO_BOOT_PIN_MASK;
+	boot_port->PINCFG[BOOT_LOAD_PIN & 0x1F].reg = PORT_PINCFG_INEN | PORT_PINCFG_PULLEN;
+	boot_port->OUTSET.reg = GPIO_BOOT_PIN_MASK;
+	/* Read the BOOT_LOAD_PIN status */
+	boot_en = (boot_port->IN.reg) & GPIO_BOOT_PIN_MASK;
 
-  // Check the bootloader enable condition
-  if (!boot_en)
-  {
-    // Stay in bootloader
-    return;
-  }
-#endif
-*/
+	/* Check the bootloader enable condition */
+	if (!boot_en) {
+		/* Stay in bootloader */
+		return;
+	}
 
-//  LED_on();
+	/* Rebase the Stack Pointer */
+	__set_MSP(*(uint32_t *) APP_START_ADDRESS);
 
-  /* Rebase the Stack Pointer */
-  __set_MSP( (uint32_t)(__sketch_vectors_ptr) );
+	/* Rebase the vector table base address */
+	SCB->VTOR = ((uint32_t) APP_START_ADDRESS & SCB_VTOR_TBLOFF_Msk);
 
-  /* Rebase the vector table base address */
-  SCB->VTOR = ((uint32_t)(&__sketch_vectors_ptr) & SCB_VTOR_TBLOFF_Msk);
-
-  /* Jump to application Reset Handler in the application */
-  asm("bx %0"::"r"(*pulSketch_Start_Address));
+	/* Jump to application Reset Handler in the application */
+	asm("bx %0"::"r"(app_start_address));
 }
+
 
 #if DEBUG_ENABLE
 #	define DEBUG_PIN_HIGH 	port_pin_set_output_level(BOOT_LED, 1)
@@ -150,84 +174,87 @@ uint32_t* pulSketch_Start_Address;
 #endif
 
 /**
- *  \brief SAMD21 SAM-BA Main loop.
+ *  \brief SAM-BA Main loop.
  *  \return Unused (ANSI-C compatibility).
  */
 int main(void)
 {
-#if SAM_BA_INTERFACE == SAM_BA_USBCDC_ONLY  ||  SAM_BA_INTERFACE == SAM_BA_BOTH_INTERFACES
-  P_USB_CDC pCdc;
+
+	DEBUG_PIN_HIGH;
+
+	/* Jump in application if condition is satisfied */
+	check_start_application();
+
+	/* We have determined we should stay in the monitor. */
+	/* System initialization */
+	system_init();
+
+#ifdef CONF_USBCDC_INTERFACE_SUPPORT
+	/* Start USB stack */
+	udc_start();
 #endif
-  DEBUG_PIN_HIGH;
+	/* UART is enabled in all cases */
+	usart_open();
 
-  /* Jump in application if condition is satisfied */
-  check_start_application();
-
-  /* We have determined we should stay in the monitor. */
-  /* System initialization */
-  board_init();
-  __enable_irq();
-
-#if SAM_BA_INTERFACE == SAM_BA_UART_ONLY  ||  SAM_BA_INTERFACE == SAM_BA_BOTH_INTERFACES
-  /* UART is enabled in all cases */
-  serial_open();
+	DEBUG_PIN_LOW;
+	/* Wait for a complete enum on usb or a '#' char on serial line */
+	while (1) {
+#ifdef CONF_USBCDC_INTERFACE_SUPPORT
+		/* Check if a USB enumeration has succeeded and com port was opened */
+		if(main_b_cdc_enable) {
+			sam_ba_monitor_init(SAM_BA_INTERFACE_USBCDC);
+			/* SAM-BA on USB loop */
+			while(1) {
+				sam_ba_monitor_run();
+			}
+		}
 #endif
-
-#if SAM_BA_INTERFACE == SAM_BA_USBCDC_ONLY  ||  SAM_BA_INTERFACE == SAM_BA_BOTH_INTERFACES
-  pCdc = usb_init();
-#endif
-
-  DEBUG_PIN_LOW;
-
-  /* Initialize LEDs */
-  LED_init();
-  LEDRX_init();
-  LEDRX_off();
-  LEDTX_init();
-  LEDTX_off();
-
-  /* Start the sys tick (1 ms) */
-  SysTick_Config(1000);
-
-  /* Wait for a complete enum on usb or a '#' char on serial line */
-  while (1)
-  {
-#if SAM_BA_INTERFACE == SAM_BA_USBCDC_ONLY  ||  SAM_BA_INTERFACE == SAM_BA_BOTH_INTERFACES
-    if (pCdc->IsConfigured(pCdc) != 0)
-    {
-      main_b_cdc_enable = true;
-    }
-
-    /* Check if a USB enumeration has succeeded and if comm port has been opened */
-    if (main_b_cdc_enable)
-    {
-      sam_ba_monitor_init(SAM_BA_INTERFACE_USBCDC);
-      /* SAM-BA on USB loop */
-      while( 1 )
-      {
-        sam_ba_monitor_run();
-      }
-    }
-#endif
-
-#if SAM_BA_INTERFACE == SAM_BA_UART_ONLY  ||  SAM_BA_INTERFACE == SAM_BA_BOTH_INTERFACES
-    /* Check if a '#' has been received */
-    if (!main_b_cdc_enable && serial_sharp_received())
-    {
-      sam_ba_monitor_init(SAM_BA_INTERFACE_USART);
-      /* SAM-BA on Serial loop */
-      while(1)
-      {
-        sam_ba_monitor_run();
-      }
-    }
-#endif
-  }
+		/* Check if a '#' has been received */
+		if (usart_sharp_received()) {
+			sam_ba_monitor_init(SAM_BA_INTERFACE_USART);
+			/* SAM-BA on UART loop */
+			while(1) {
+				sam_ba_monitor_run();
+			}
+		}
+	}
 }
 
-void SysTick_Handler(void)
+#ifdef CONF_USBCDC_INTERFACE_SUPPORT
+#ifdef USB_DEVICE_LPM_SUPPORT
+void main_suspend_lpm_action(void)
 {
-  LED_pulse();
-
-  sam_ba_monitor_sys_tick();
 }
+
+void main_remotewakeup_lpm_disable(void)
+{
+}
+
+void main_remotewakeup_lpm_enable(void)
+{
+}
+#endif
+
+bool main_cdc_enable(uint8_t port)
+{
+	main_b_cdc_enable = true;
+	return true;
+}
+
+void main_cdc_disable(uint8_t port)
+{
+	main_b_cdc_enable = false;
+}
+
+void main_cdc_set_dtr(uint8_t port, bool b_enable)
+{
+}
+
+void main_cdc_rx_notify(uint8_t port)
+{
+}
+
+void main_cdc_set_coding(uint8_t port, usb_cdc_line_coding_t * cfg)
+{
+}
+#endif

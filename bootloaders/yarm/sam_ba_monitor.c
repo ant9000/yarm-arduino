@@ -221,11 +221,11 @@ void sam_ba_putdata_term(uint8_t* data, uint32_t length)
 	if (b_terminal_mode)
 	{
 		if (length == 4)
-			int_value = *(uint32_t *) data;
+			int_value = *(uint32_t *) ((void *)data);
 		else if (length == 2)
-			int_value = *(uint16_t *) data;
+			int_value = *(uint16_t *) ((void *)data);
 		else
-			int_value = *(uint8_t *) data;
+			int_value = *(uint8_t *) ((void *)data);
 
 		data_ascii = buf + 2;
 		data_ascii += length * 2 - 1;
@@ -345,11 +345,11 @@ void sam_ba_monitor_run(void)
 					}
 					else if (command == 'H')
 					{
-						*((uint16_t *) ptr_data) = (uint16_t) current_number;
+						*((uint16_t *) ((void *)ptr_data)) = (uint16_t) current_number;
 					}
 					else if (command == 'W')
 					{
-						*((int *) ptr_data) = current_number;
+						*((int *) ((void *)ptr_data)) = current_number;
 					}
 					else if (command == 'o')
 					{
@@ -357,12 +357,12 @@ void sam_ba_monitor_run(void)
 					}
 					else if (command == 'h')
 					{
-						current_number = *((uint16_t *) ptr_data);
+						current_number = *((uint16_t *) ((void *)ptr_data));
 						sam_ba_putdata_term((uint8_t*) &current_number, 2);
 					}
 					else if (command == 'w')
 					{
-						current_number = *((uint32_t *) ptr_data);
+						current_number = *((uint32_t *) ((void *)ptr_data));
 						sam_ba_putdata_term((uint8_t*) &current_number, 4);
 					}
 					else if (command == 'G')
@@ -435,7 +435,7 @@ void sam_ba_monitor_run(void)
                         if (current_number == 0)
                         {
                             // Set buffer address
-                            src_buff_addr = (uint32_t*)ptr_data;
+                            src_buff_addr = (uint32_t*)((void *)ptr_data);
                         }
                         else
                         {

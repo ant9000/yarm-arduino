@@ -270,7 +270,7 @@ static int putPacket(uint8_t *tmppkt, uint8_t sno) {
  * \brief Used by Xdown to retrieve packets.
  */
 uint8_t getPacket(uint8_t *ptr_data, uint8_t sno) {
-	uint8_t seq[2];
+	uint8_t seq[2], tmp;
 	uint16_t crc, xcrc;
 
 	getbytes(seq, 2);
@@ -285,7 +285,8 @@ uint8_t getPacket(uint8_t *ptr_data, uint8_t sno) {
 	if (error_timeout == 1)
 		return (false);
 
-	if ((crc != xcrc) || (seq[0] != sno) || (seq[1] != (uint8_t) (~sno))) {
+    tmp = ~sno;
+	if ((crc != xcrc) || (seq[0] != sno) || (seq[1] != tmp)) {
 		usart_putc(CAN);
 		return (false);
 	}

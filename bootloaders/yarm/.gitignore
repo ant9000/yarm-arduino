@@ -1,3 +1,4 @@
 arduino_bootloader_flash.*
 build/*
 *.d
+!libarm_cortexM0l_math.a

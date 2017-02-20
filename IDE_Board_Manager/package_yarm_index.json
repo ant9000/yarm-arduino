@@ -13,14 +13,14 @@
           "category": "Contributed",
           "name": "AcmeSystems Boards - version #0.0.1",
 		  "url":"https://github.com/ant9000/yarm-arduino/raw/master/IDE_Board_Manager/yarm-arduino-0.0.1.tar.bz2",
-		  "checksum":"SHA-256:07e668c5d4f626adca36c01b12776d4c2110ff1abe99ddca2d000359af5dc321",
+		  "checksum":"SHA-256:6e78bcde10ce76a329e01e382844bc7d120089c52bf9f742312536bf309ef854",
 		  "help":{
 			"online":"https://www.acmesystems.it/yarm"
 		  },
           "version": "0.0.1",
           "architecture": "saml",
           "archiveFileName":"yarm-arduino-0.0.1.tar.bz2",
-          "size": "3074208",
+          "size": "3074179",
           "boards":[
 				{ "name":"YARM Board (Programming port)" },
 				{ "name":"YARM Board (Native USB port)" }
@@ -40,6 +40,41 @@
           "version": "1.0.1a",
           "systems":
           [
+            {
+              "host": "i686-mingw32",
+              "url": "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
+              "archiveFileName": "CMSIS-Atmel-1.0.1a.tar.bz2",
+              "checksum": "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
+              "size": "1678686"
+            },
+            {
+              "host": "x86_64-apple-darwin",
+              "url": "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
+              "archiveFileName": "CMSIS-Atmel-1.0.1a.tar.bz2",
+              "checksum": "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
+              "size": "1678686"
+            },
+            {
+              "host": "x86_64-pc-linux-gnu",
+              "url": "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
+              "archiveFileName": "CMSIS-Atmel-1.0.1a.tar.bz2",
+              "checksum": "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
+              "size": "1678686"
+            },
+            {
+              "host": "i686-pc-linux-gnu",
+              "url": "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
+              "archiveFileName": "CMSIS-Atmel-1.0.1a.tar.bz2",
+              "checksum": "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
+              "size": "1678686"
+            },
+            {
+              "host": "arm-linux-gnueabihf",
+              "url": "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
+              "archiveFileName": "CMSIS-Atmel-1.0.1a.tar.bz2",
+              "checksum": "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
+              "size": "1678686"
+            },
             {
               "host": "all",
               "url": "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",

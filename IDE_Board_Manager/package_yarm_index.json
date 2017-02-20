@@ -1,7 +1,7 @@
 {
    "packages":[
 	  {
-      "name": "yarm-arduino",
+      "name": "Acmesystems",
       "maintainer": "Acmesystems s.r.l.",
       "websiteURL": "https://github.com/ant9000/yarm-arduino",
       "email": "antonio.galea@gmail.com",
@@ -13,31 +13,31 @@
           "category": "Contributed",
           "name": "AcmeSystems Boards - version #0.0.1",
 		  "url":"https://github.com/ant9000/yarm-arduino/raw/master/IDE_Board_Manager/yarm-arduino-0.0.1.tar.bz2",
-		  "checksum":"SHA-256:6e78bcde10ce76a329e01e382844bc7d120089c52bf9f742312536bf309ef854",
+		  "checksum":"SHA-256:e731d07041ca7825a5326ff0e5aad79110d1db9b673dfcf9c4991d116f954c6c",
 		  "help":{
 			"online":"https://www.acmesystems.it/yarm"
 		  },
           "version": "0.0.1",
           "architecture": "saml",
           "archiveFileName":"yarm-arduino-0.0.1.tar.bz2",
-          "size": "3074179",
+          "size": "3074214",
           "boards":[
 				{ "name":"YARM Board (Programming port)" },
 				{ "name":"YARM Board (Native USB port)" }
 		  ],
           "toolsDependencies": [
             {
-              "packager": "yarm-arduino",
-              "version": "1.0.1a",
-              "name": "CMSIS-Atmel"
+              "packager": "acmesystems",
+              "version": "1.0.1",
+              "name": "CMSIS-Atmel-acme"
             }
           ]
         }
       ],
       "tools": [
         {
-          "name": "CMSIS-Atmel",
-          "version": "1.0.1a",
+          "name": "CMSIS-Atmel-acme",
+          "version": "1.0.1",
           "systems":
           [
             {

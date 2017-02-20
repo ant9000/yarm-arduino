@@ -1,7 +1,7 @@
 {
    "packages":[
 	  {
-      "name": "Acmesystems",
+      "name": "acmesystems",
       "maintainer": "Acmesystems s.r.l.",
       "websiteURL": "https://github.com/ant9000/yarm-arduino",
       "email": "antonio.galea@gmail.com",
@@ -13,14 +13,14 @@
           "category": "Contributed",
           "name": "AcmeSystems Boards - version #0.0.1",
 		  "url":"https://github.com/ant9000/yarm-arduino/raw/master/IDE_Board_Manager/yarm-arduino-0.0.1.tar.bz2",
-		  "checksum":"SHA-256:e731d07041ca7825a5326ff0e5aad79110d1db9b673dfcf9c4991d116f954c6c",
+		  "checksum":"SHA-256:50c9b557069f438a8285e8a174c4317a5a48e1fc95f025f952dcb6ff57f7a04c",
 		  "help":{
 			"online":"https://www.acmesystems.it/yarm"
 		  },
           "version": "0.0.1",
           "architecture": "saml",
           "archiveFileName":"yarm-arduino-0.0.1.tar.bz2",
-          "size": "3074214",
+          "size": "3074212",
           "boards":[
 				{ "name":"YARM Board (Programming port)" },
 				{ "name":"YARM Board (Native USB port)" }

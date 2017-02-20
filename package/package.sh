@@ -17,9 +17,9 @@ CHECKSUM=`sha256sum $FILENAME | awk '{ print $1 }'`
 SIZE=`wc -c $FILENAME | awk '{ print $1 }'`
 
 cat package_yarm_index.json.template |
-sed s/%%VERSION%%/${PACKAGE_VERSION}/ |
+sed s/%%VERSION%%/${VERSION}/ |
 sed s/%%FILENAME%%/${FILENAME}/ |
-sed s/%%CHECKSUM%%/${CHKSUM}/ |
+sed s/%%CHECKSUM%%/${CHECKSUM}/ |
 sed s/%%SIZE%%/${SIZE}/ > package_yarm_index.json
 
 mv ${FILENAME} package_yarm_index.json ../IDE_Board_Manager/

@@ -11,16 +11,16 @@
       "platforms": [
         {
           "category": "Contributed",
-          "name": "AcmeSystems Boards - version #",
+          "name": "AcmeSystems Boards - version #0.0.1",
 		  "url":"https://github.com/ant9000/yarm-arduino/raw/master/IDE_Board_Manager/yarm-arduino-0.0.1.tar.bz2",
-		  "checksum":"SHA-256:",
+		  "checksum":"SHA-256:07e668c5d4f626adca36c01b12776d4c2110ff1abe99ddca2d000359af5dc321",
 		  "help":{
 			"online":"https://www.acmesystems.it/yarm"
 		  },
-          "version": "",
+          "version": "0.0.1",
           "architecture": "saml",
           "archiveFileName":"yarm-arduino-0.0.1.tar.bz2",
-          "size": "6149420",
+          "size": "3074208",
           "boards":[
 				{ "name":"YARM Board (Programming port)" },
 				{ "name":"YARM Board (Native USB port)" }

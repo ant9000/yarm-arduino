@@ -44,36 +44,36 @@
               "host": "i686-mingw32",
               "url": "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
               "archiveFileName": "CMSIS-Atmel-1.0.1a.tar.bz2",
-              "checksum": "SHA-256:97b845bb02bd042e37a8d339daefebebd5ff272642c1588a82461a7f15322ef9",
-              "size": "1678832"
+              "checksum": "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
+              "size": "1678686"
             },
             {
               "host": "x86_64-apple-darwin",
               "url": "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
               "archiveFileName": "CMSIS-Atmel-1.0.1a.tar.bz2",
-              "checksum": "SHA-256:97b845bb02bd042e37a8d339daefebebd5ff272642c1588a82461a7f15322ef9",
-              "size": "1678832"
+              "checksum": "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
+              "size": "1678686"
             },
             {
               "host": "x86_64-pc-linux-gnu",
               "url": "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
               "archiveFileName": "CMSIS-Atmel-1.0.1a.tar.bz2",
-              "checksum": "SHA-256:97b845bb02bd042e37a8d339daefebebd5ff272642c1588a82461a7f15322ef9",
-              "size": "1678832"
+              "checksum": "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
+              "size": "1678686"
             },
             {
               "host": "i686-pc-linux-gnu",
               "url": "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
               "archiveFileName": "CMSIS-Atmel-1.0.1a.tar.bz2",
-              "checksum": "SHA-256:97b845bb02bd042e37a8d339daefebebd5ff272642c1588a82461a7f15322ef9",
-              "size": "1678832"
+              "checksum": "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
+              "size": "1678686"
             },
             {
               "host": "all",
               "url": "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
               "archiveFileName": "CMSIS-Atmel-1.0.1a.tar.bz2",
-              "checksum": "SHA-256:97b845bb02bd042e37a8d339daefebebd5ff272642c1588a82461a7f15322ef9",
-              "size": "1678832"
+              "checksum": "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
+              "size": "1678686"
             }
           ]
         }

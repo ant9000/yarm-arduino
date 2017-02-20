@@ -1,7 +1,7 @@
 {
    "packages":[
 	  {
-      "name": "yarm-arduino",
+      "name": "Acmesystems",
       "maintainer": "Acmesystems s.r.l.",
       "websiteURL": "https://github.com/ant9000/yarm-arduino",
       "email": "antonio.galea@gmail.com",
@@ -27,17 +27,17 @@
 		  ],
           "toolsDependencies": [
             {
-              "packager": "yarm-arduino",
-              "version": "1.0.1a",
-              "name": "CMSIS-Atmel"
+              "packager": "acmesystems",
+              "version": "1.0.1",
+              "name": "CMSIS-Atmel-acme"
             }
           ]
         }
       ],
       "tools": [
         {
-          "name": "CMSIS-Atmel",
-          "version": "1.0.1a",
+          "name": "CMSIS-Atmel-acme",
+          "version": "1.0.1",
           "systems":
           [
             {

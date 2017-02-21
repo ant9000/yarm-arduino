@@ -64,7 +64,7 @@ compiler.S.extra_flags=
 compiler.ar.extra_flags=
 compiler.elf2hex.extra_flags=
 
-compiler.arm.cmsis.c.flags="-I{runtime.tools.CMSIS-4.5.0.path}/CMSIS/Include/" "-I{runtime.tools.CMSIS-Atmel-1.0.1-acme.path}/CMSIS/Device/ATMEL/"
+compiler.arm.cmsis.c.flags="-I{runtime.tools.CMSIS-4.5.0.path}/CMSIS/Include/" "-I{runtime.tools.CMSIS-Atmel-acme-1.0.1.path}/CMSIS/Device/ATMEL/"
 compiler.arm.cmsis.ldflags="-L{runtime.tools.CMSIS-4.5.0.path}/CMSIS/Lib/GCC/" -larm_cortexM0l_math
 
 # USB Flags
@@ -132,7 +132,7 @@ tools.avrdude_remote.upload.pattern=/usr/bin/XXX-run-avrdude /tmp/sketch.hex
 #
 # BOSSA
 #
-tools.bossac.path={runtime.tools.bossac-1.7.1-acme.path}
+tools.bossac.path={runtime.tools.bossac-acme-1.7.1.path}
 tools.bossac.cmd=bossac
 tools.bossac.cmd.windows=bossac.exe
 

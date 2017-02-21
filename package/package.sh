@@ -22,4 +22,9 @@ sed s/%%FILENAME%%/${FILENAME}/ |
 sed s/%%CHECKSUM%%/${CHECKSUM}/ |
 sed s/%%SIZE%%/${SIZE}/ > package_yarm_index.json
 
-mv ${FILENAME} package_yarm_index.json ../IDE_Board_Manager/
+if [ "$DEBUG" ]; then
+  cat package_yarm_index.json |
+  sed "s/https:\/\/github.com\/ant9000\/yarm-arduino\/raw\/master\/IDE_Board_Manager\//http:\/\/localhost:8000\//" > package_yarm_debug_index.json
+fi
+
+mv ${FILENAME} package_yarm_*index.json ../IDE_Board_Manager/

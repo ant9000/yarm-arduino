@@ -13,14 +13,14 @@
           "category": "Contributed",
           "name": "AcmeSystems Boards - version #0.0.1",
 		  "url":"http://localhost:8000/yarm-arduino-0.0.1.tar.bz2",
-		  "checksum":"SHA-256:e45ba0f85822456da35a1ffd18d8f3f40e6c7713fcad4f57b1d73c3ad374509b",
+		  "checksum":"SHA-256:8508a9aa1828ee00b4b35958e07f369e5cfaa9333cb3360a1b95fea52b8ec77e",
 		  "help":{
 			"online":"https://www.acmesystems.it/yarm"
 		  },
           "version": "0.0.1",
           "architecture": "saml",
           "archiveFileName":"yarm-arduino-0.0.1.tar.bz2",
-          "size": "1418108",
+          "size": "6706378",
           "boards":[
 				{ "name":"YARM Board (Programming port)" },
 				{ "name":"YARM Board (Native USB port)" }

@@ -1,4 +1,4 @@
-arduino_bootloader_flash.*
+yarm_bootloader.*
 build/*
 *.d
 !libarm_cortexM0l_math.a

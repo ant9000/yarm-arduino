@@ -22,4 +22,4 @@ yarm_edbg.build.variant_system_lib=
 yarm_edbg.build.vid=0x2341
 yarm_edbg.build.pid=0x804d
 yarm_edbg.bootloader.tool=openocd
-yarm_edbg.bootloader.file=yarm/yarm.bin
+yarm_edbg.bootloader.file=yarm/yarm_bootloader.bin

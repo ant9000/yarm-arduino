@@ -13,19 +13,39 @@
           "category": "Contributed",
           "name": "AcmeSystems Boards - version #0.0.1",
 		  "url":"https://github.com/ant9000/yarm-arduino/raw/master/IDE_Board_Manager/yarm-arduino-0.0.1.tar.bz2",
-		  "checksum":"SHA-256:8508a9aa1828ee00b4b35958e07f369e5cfaa9333cb3360a1b95fea52b8ec77e",
+		  "checksum":"SHA-256:538a2213079ef0d8345eb27a0213f29107fd9d8b78e7f85d05e809e1de06f56d",
 		  "help":{
 			"online":"https://www.acmesystems.it/yarm"
 		  },
           "version": "0.0.1",
           "architecture": "saml",
           "archiveFileName":"yarm-arduino-0.0.1.tar.bz2",
-          "size": "6706378",
+          "size": "6709163",
           "boards":[
 				{ "name":"YARM Board (Programming port)" },
 				{ "name":"YARM Board (Native USB port)" }
 		  ],
           "toolsDependencies": [
+            {
+              "packager": "arduino",
+              "name": "arm-none-eabi-gcc",
+              "version": "4.8.3-2014q1"
+            },
+            {
+              "packager": "arduino",
+              "name": "bossac",
+              "version": "1.7.0"
+            },
+            {
+              "packager": "arduino",
+              "name": "openocd",
+              "version": "0.9.0-arduino5-static"
+            },
+            {
+              "packager": "arduino",
+              "name": "CMSIS",
+              "version": "4.5.0"
+            },
             {
               "packager": "acmesystems",
               "version": "1.0.1",

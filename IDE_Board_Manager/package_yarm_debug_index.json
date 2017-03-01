@@ -13,14 +13,14 @@
           "category": "Contributed",
           "name": "AcmeSystems Boards - version #0.0.1",
 		  "url":"http://localhost:8000/yarm-arduino-0.0.1.tar.bz2",
-		  "checksum":"SHA-256:9dd105a46186d5a37a8a8c99d7b2187c5aaa8631a9ffd4696270abe50fb1206e",
+		  "checksum":"SHA-256:5d84d28a5d6a23be6ed36bc433fff39b274a3bf9a6e1e87d50172655c75ad70f",
 		  "help":{
 			"online":"https://www.acmesystems.it/yarm"
 		  },
           "version": "0.0.1",
           "architecture": "saml",
           "archiveFileName":"yarm-arduino-0.0.1.tar.bz2",
-          "size": "6709371",
+          "size": "6709416",
           "boards":[
 				{ "name":"YARM Board (Programming port)" },
 				{ "name":"YARM Board (Native USB port)" }
@@ -49,7 +49,7 @@
             {
               "packager": "acmesystems",
               "name": "openocd",
-              "version": "openocd-0.10.0-acme-static"
+              "version": "0.10.0-acme-static"
             }
           ]
         }
@@ -106,7 +106,7 @@
         },
         {
           "name": "openocd",
-          "version": "openocd-0.10.0-acme-static",
+          "version": "0.10.0-acme-static",
           "systems":
           [
             {

@@ -43,13 +43,13 @@
             },
             {
               "packager": "acmesystems",
-              "name": "CMSIS-Atmel-acme"
-              "version": "1.0.1",
+              "name": "CMSIS-Atmel-acme",
+              "version": "1.0.1"
             },
             {
               "packager": "acmesystems",
-              "name": "openocd"
-              "version": "openocd-0.10.0-acme-static",
+              "name": "openocd",
+              "version": "openocd-0.10.0-acme-static"
             }
           ]
         }

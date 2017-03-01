@@ -13,14 +13,14 @@
           "category": "Contributed",
           "name": "AcmeSystems Boards - version #0.0.1",
 		  "url":"https://github.com/ant9000/yarm-arduino/raw/master/IDE_Board_Manager/yarm-arduino-0.0.1.tar.bz2",
-		  "checksum":"SHA-256:538a2213079ef0d8345eb27a0213f29107fd9d8b78e7f85d05e809e1de06f56d",
+		  "checksum":"SHA-256:3935aa5354db0ae2a9cca1d1620f9c76e44f3ca58cd1882dbcc7052a62635d82",
 		  "help":{
 			"online":"https://www.acmesystems.it/yarm"
 		  },
           "version": "0.0.1",
           "architecture": "saml",
           "archiveFileName":"yarm-arduino-0.0.1.tar.bz2",
-          "size": "6709163",
+          "size": "6709451",
           "boards":[
 				{ "name":"YARM Board (Programming port)" },
 				{ "name":"YARM Board (Native USB port)" }
@@ -38,18 +38,18 @@
             },
             {
               "packager": "arduino",
-              "name": "openocd",
-              "version": "0.9.0-arduino5-static"
-            },
-            {
-              "packager": "arduino",
               "name": "CMSIS",
               "version": "4.5.0"
             },
             {
               "packager": "acmesystems",
-              "version": "1.0.1",
               "name": "CMSIS-Atmel-acme"
+              "version": "1.0.1",
+            },
+            {
+              "packager": "acmesystems",
+              "name": "openocd"
+              "version": "openocd-0.10.0-acme-static",
             }
           ]
         }
@@ -101,6 +101,27 @@
               "archiveFileName": "CMSIS-Atmel-1.0.1a.tar.bz2",
               "checksum": "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
               "size": "1678686"
+            }
+          ]
+        },
+        {
+          "name": "openocd",
+          "version": "openocd-0.10.0-acme-static",
+          "systems":
+          [
+            {
+              "host": "x86_64-pc-linux-gnu",
+              "url": "https://github.com/ant9000/openocd-builder/releases/download/0.10.0/openocd-0.10.0-static-x86_64-linux-gnu.tar.bz2",
+              "archiveFileName": "openocd-0.10.0-static-x86_64-linux-gnu.tar.bz2",
+              "checksum": "SHA-256:f9e2ee07139bcb239363b95e99ae11530720d3eef44fbb3b7cb4a47c2fd6476b",
+              "size": "3970457"
+            },
+            {
+              "host": "i686-pc-linux-gnu",
+              "url": "https://github.com/ant9000/openocd-builder/releases/download/0.10.0/openocd-0.10.0-static-i686-linux-gnu.tar.bz2",
+              "archiveFileName": "openocd-0.10.0-static-i686-linux-gnu.tar.bz2",
+              "checksum": "SHA-256:1558ffd011a527ebc7f8d8772b8d42f3c0377cd81bf6874935d1272696b7753d",
+              "size": "3779289"
             }
           ]
         }

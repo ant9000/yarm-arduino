@@ -1,131 +1,140 @@
 {
-   "packages":[
-	  {
-      "name": "acmesystems",
-      "maintainer": "Acmesystems s.r.l.",
-      "websiteURL": "https://github.com/ant9000/yarm-arduino",
-      "email": "antonio.galea@gmail.com",
-      "help": {
-        "online": "http://www.acmesystems.it/yarm"
-      },
-      "platforms": [
-        {
-          "category": "Contributed",
-          "name": "AcmeSystems Boards - version #%%VERSION%%",
-		  "url":"https://github.com/ant9000/yarm-arduino/raw/master/IDE_Board_Manager/%%FILENAME%%",
-		  "checksum":"SHA-256:%%CHECKSUM%%",
-		  "help":{
-			"online":"https://www.acmesystems.it/yarm"
-		  },
-          "version": "%%VERSION%%",
-          "architecture": "saml",
-          "archiveFileName":"%%FILENAME%%",
-          "size": "%%SIZE%%",
-          "boards":[
-				{ "name":"YARM Board (Programming port)" },
-				{ "name":"YARM Board (Native USB port)" }
-		  ],
-          "toolsDependencies": [
+   "packages" : [
+      {
+         "name" : "acmesystems",
+         "maintainer" : "Acmesystems s.r.l.",
+         "websiteURL" : "https://github.com/ant9000/yarm-arduino",
+         "email" : "antonio.galea@gmail.com",
+         "help" : {
+            "online" : "http://www.acmesystems.it/yarm"
+         },
+         "platforms" : [
             {
-              "packager": "arduino",
-              "name": "arm-none-eabi-gcc",
-              "version": "4.8.3-2014q1"
-            },
-            {
-              "packager": "arduino",
-              "name": "bossac",
-              "version": "1.7.0"
-            },
-            {
-              "packager": "arduino",
-              "name": "CMSIS",
-              "version": "4.5.0"
-            },
-            {
-              "packager": "acmesystems",
-              "name": "CMSIS-Atmel-acme",
-              "version": "1.0.1"
-            },
-            {
-              "packager": "acmesystems",
-              "name": "openocd",
-              "version": "0.10.0-acme-static"
+               "name" : "AcmeSystems Boards - version #%%VERSION%%",
+               "category" : "Contributed",
+               "architecture" : "saml",
+               "version" : "%%VERSION%%",
+               "help" : {
+                  "online" : "https://www.acmesystems.it/yarm"
+               },
+               "url" : "https://github.com/ant9000/yarm-arduino/raw/master/IDE_Board_Manager/%%FILENAME%%",
+               "archiveFileName" : "%%FILENAME%%",
+               "checksum" : "SHA-256:%%CHECKSUM%%",
+               "size" : "%%SIZE%%",
+               "boards" : [
+                  {
+                     "name" : "YARM Board (Programming port)"
+                  },
+                  {
+                     "name" : "YARM Board (Native USB port)"
+                  }
+               ],
+               "toolsDependencies" : [
+                  {
+                     "name" : "arm-none-eabi-gcc",
+                     "version" : "4.8.3-2014q1",
+                     "packager" : "arduino"
+                  },
+                  {
+                     "name" : "bossac",
+                     "version" : "1.7.0",
+                     "packager" : "arduino"
+                  },
+                  {
+                     "name" : "CMSIS",
+                     "version" : "4.5.0",
+                     "packager" : "arduino"
+                  },
+                  {
+                     "name" : "CMSIS-Atmel-acme",
+                     "version" : "1.0.1",
+                     "packager" : "acmesystems"
+                  },
+                  {
+                     "name" : "openocd",
+                     "version" : "0.10.0-acme-static",
+                     "packager" : "acmesystems"
+                  }
+               ]
             }
-          ]
-        }
-      ],
-      "tools": [
-        {
-          "name": "CMSIS-Atmel-acme",
-          "version": "1.0.1",
-          "systems":
-          [
+         ],
+         "tools" : [
             {
-              "host": "i686-mingw32",
-              "url": "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
-              "archiveFileName": "CMSIS-Atmel-1.0.1a.tar.bz2",
-              "checksum": "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
-              "size": "1678686"
+               "name" : "CMSIS-Atmel-acme",
+               "version" : "1.0.1",
+               "systems" : [
+                  {
+                     "host" : "i686-mingw32",
+                     "url" : "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
+                     "archiveFileName" : "CMSIS-Atmel-1.0.1a.tar.bz2",
+                     "checksum" : "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
+                     "size" : "1678686"
+                  },
+                  {
+                     "host" : "x86_64-apple-darwin",
+                     "url" : "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
+                     "archiveFileName" : "CMSIS-Atmel-1.0.1a.tar.bz2",
+                     "checksum" : "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
+                     "size" : "1678686"
+                  },
+                  {
+                     "host" : "x86_64-pc-linux-gnu",
+                     "url" : "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
+                     "archiveFileName" : "CMSIS-Atmel-1.0.1a.tar.bz2",
+                     "checksum" : "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
+                     "size" : "1678686"
+                  },
+                  {
+                     "host" : "i686-pc-linux-gnu",
+                     "url" : "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
+                     "archiveFileName" : "CMSIS-Atmel-1.0.1a.tar.bz2",
+                     "checksum" : "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
+                     "size" : "1678686"
+                  },
+                  {
+                     "host" : "arm-linux-gnueabihf",
+                     "url" : "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
+                     "archiveFileName" : "CMSIS-Atmel-1.0.1a.tar.bz2",
+                     "checksum" : "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
+                     "size" : "1678686"
+                  },
+                  {
+                     "host" : "all",
+                     "url" : "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
+                     "archiveFileName" : "CMSIS-Atmel-1.0.1a.tar.bz2",
+                     "checksum" : "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
+                     "size" : "1678686"
+                  }
+               ]
             },
             {
-              "host": "x86_64-apple-darwin",
-              "url": "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
-              "archiveFileName": "CMSIS-Atmel-1.0.1a.tar.bz2",
-              "checksum": "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
-              "size": "1678686"
-            },
-            {
-              "host": "x86_64-pc-linux-gnu",
-              "url": "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
-              "archiveFileName": "CMSIS-Atmel-1.0.1a.tar.bz2",
-              "checksum": "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
-              "size": "1678686"
-            },
-            {
-              "host": "i686-pc-linux-gnu",
-              "url": "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
-              "archiveFileName": "CMSIS-Atmel-1.0.1a.tar.bz2",
-              "checksum": "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
-              "size": "1678686"
-            },
-            {
-              "host": "arm-linux-gnueabihf",
-              "url": "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
-              "archiveFileName": "CMSIS-Atmel-1.0.1a.tar.bz2",
-              "checksum": "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
-              "size": "1678686"
-            },
-            {
-              "host": "all",
-              "url": "https://github.com/ant9000/ArduinoModule-CMSIS-Atmel/releases/download/v1.0.1a/CMSIS-Atmel-1.0.1a.tar.bz2",
-              "archiveFileName": "CMSIS-Atmel-1.0.1a.tar.bz2",
-              "checksum": "SHA-256:f80d2ff861f61e6db7f545b53f077acce7dc1c7b6cb2d139a0dbae9a54229bdd",
-              "size": "1678686"
+               "name" : "openocd",
+               "version" : "0.10.0-acme-static",
+               "systems" : [
+                  {
+                     "host" : "i686-mingw32",
+                     "url" : "https://github.com/ant9000/openocd-builder/releases/download/0.10.0/openocd-0.10.0-static-i686-mingw32.tar.bz2",
+                     "archiveFileName" : "openocd-0.10.0-static-i686-mingw32.tar.bz2",
+                     "checksum" : "SHA-256:7d8f26b093d243be00199baa8c79ae3cb49555e369ccafe43fe21c16594c148c",
+                     "size" : "3980708"
+                  },
+                  {
+                     "host" : "x86_64-pc-linux-gnu",
+                     "url" : "https://github.com/ant9000/openocd-builder/releases/download/0.10.0/openocd-0.10.0-static-x86_64-linux-gnu.tar.bz2",
+                     "archiveFileName" : "openocd-0.10.0-static-x86_64-linux-gnu.tar.bz2",
+                     "checksum" : "SHA-256:f9e2ee07139bcb239363b95e99ae11530720d3eef44fbb3b7cb4a47c2fd6476b",
+                     "size" : "3970457"
+                  },
+                  {
+                     "host" : "i686-pc-linux-gnu",
+                     "url" : "https://github.com/ant9000/openocd-builder/releases/download/0.10.0/openocd-0.10.0-static-i686-linux-gnu.tar.bz2",
+                     "archiveFileName" : "openocd-0.10.0-static-i686-linux-gnu.tar.bz2",
+                     "checksum" : "SHA-256:1558ffd011a527ebc7f8d8772b8d42f3c0377cd81bf6874935d1272696b7753d",
+                     "size" : "3779289"
+                  }
+               ]
             }
-          ]
-        },
-        {
-          "name": "openocd",
-          "version": "0.10.0-acme-static",
-          "systems":
-          [
-            {
-              "host": "x86_64-pc-linux-gnu",
-              "url": "https://github.com/ant9000/openocd-builder/releases/download/0.10.0/openocd-0.10.0-static-x86_64-linux-gnu.tar.bz2",
-              "archiveFileName": "openocd-0.10.0-static-x86_64-linux-gnu.tar.bz2",
-              "checksum": "SHA-256:f9e2ee07139bcb239363b95e99ae11530720d3eef44fbb3b7cb4a47c2fd6476b",
-              "size": "3970457"
-            },
-            {
-              "host": "i686-pc-linux-gnu",
-              "url": "https://github.com/ant9000/openocd-builder/releases/download/0.10.0/openocd-0.10.0-static-i686-linux-gnu.tar.bz2",
-              "archiveFileName": "openocd-0.10.0-static-i686-linux-gnu.tar.bz2",
-              "checksum": "SHA-256:1558ffd011a527ebc7f8d8772b8d42f3c0377cd81bf6874935d1272696b7753d",
-              "size": "3779289"
-            }
-          ]
-        }
-      ]
-    }
+         ]
+      }
    ]
 }
